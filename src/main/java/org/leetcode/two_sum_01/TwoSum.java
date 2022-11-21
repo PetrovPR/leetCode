@@ -8,7 +8,7 @@ import java.util.Map;
  * Hello world!
  *
  */
-public class App 
+public class TwoSum
 {
     public static void main( String[] args )
     {
