@@ -1,4 +1,4 @@
-package org.leetcode.two_sum_01;
+package org.leetcode;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
  * Hello world!
  *
  */
-public class TwoSum
+public class TwoSum_01
 {
     public static void main( String[] args )
     {
