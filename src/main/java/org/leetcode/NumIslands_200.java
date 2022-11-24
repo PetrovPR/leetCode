@@ -22,6 +22,8 @@ public class NumIslands_200 {
 
     //DFS
     public static int numIslands2(String[][] grid) {
+        if (grid == null || grid[0].length == 0) return 0;
+
         int numberOfIslands = 0;
         int width = grid[0].length;
         int rows = grid.length;
