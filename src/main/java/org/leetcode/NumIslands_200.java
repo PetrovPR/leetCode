@@ -12,11 +12,44 @@ public class NumIslands_200 {
                 {"1", "1", "1", "1", "0"},
                 {"1", "1", "0", "1", "0"},
                 {"1", "1", "0", "0", "0"},
-                {"0", "0", "0", "0", "0"}
+                {"0", "0", "1", "0", "1"}
         };
 
-        System.out.println(numIslands(islands));
+        System.out.println(numIslands2(islands));
 
+    }
+
+
+    //DFS
+    public static int numIslands2(String[][] grid) {
+        int numberOfIslands = 0;
+        int width = grid[0].length;
+        int rows = grid.length;
+        for(int i = 0; i <  rows; i++) {
+            for (int j = 0; j < width; j++) {
+                if (grid[i][j].equals("1")) {
+                    ++numberOfIslands;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+        return numberOfIslands;
+    }
+
+    public static void dfs(String[][] grid, int i, int j) {
+        int width = grid[0].length;
+        int rows = grid.length;
+
+
+        if (i < 0 || j < 0 || i >= rows || j >= width || grid[i][j].equals("0")) {
+            return;
+        }
+
+        grid[i][j] = "0";
+        dfs(grid, i + 1, j);
+        dfs(grid, i, j + 1);
+        dfs(grid, i - 1, j);
+        dfs(grid, i, j - 1);
     }
 
     public static int numIslands(String[][] grid) {
@@ -26,46 +59,48 @@ public class NumIslands_200 {
         int numberOfElements = numberOfRows * numberOfWidth;
         UnionFind unionFind = new UnionFind(numberOfElements);
         for (int i = 0; i < numberOfRows; i++) {
-            for(int j = 0; j < numberOfWidth; j++) {
-                if (j + 1 < numberOfWidth && grid[i][j].equals(grid[i][j+1])) {
-                    unionFind.union(i*numberOfWidth + j, i * numberOfWidth + j+1);
+            for (int j = 0; j < numberOfWidth; j++) {
+                if (j + 1 < numberOfWidth && grid[i][j].equals(grid[i][j + 1])) {
+                    unionFind.union(i * numberOfWidth + j, i * numberOfWidth + j + 1);
                 }
                 if (i + 1 < numberOfRows && grid[i][j].equals(grid[i + 1][j])) {
-                    unionFind.union(i*numberOfWidth + j, (i+ 1) * numberOfWidth + j);
+                    unionFind.union(i * numberOfWidth + j, (i + 1) * numberOfWidth + j);
                 }
 
                 if (grid[i][j].equals("0")) {
-                    unionFind.nullSize(i*numberOfWidth + j);
+                    unionFind.nullSize(i * numberOfWidth + j);
                 }
             }
 
         }
-        for(int a = 0; a < unionFind.size.length; a ++) {
-            if (unionFind.size[a] > 0 ) {
+        for (int a = 0; a < unionFind.size.length; a++) {
+            if (unionFind.size[a] > 0) {
                 result++;
             }
         }
-      return result;
+        return result;
     }
 
     private static class UnionFind {
         int numberOfIslands;
         int id[];
         int size[];
-        public UnionFind(int numberOfElements) {
-             numberOfIslands = numberOfElements;
-             id = new int[numberOfElements];
-             size = new int[numberOfElements];
 
-             for(int i = 0; i < numberOfElements; i ++) {
-                 id[i] = i;
-                 size[i] = 1;
-             }
+        public UnionFind(int numberOfElements) {
+            numberOfIslands = numberOfElements;
+            id = new int[numberOfElements];
+            size = new int[numberOfElements];
+
+            for (int i = 0; i < numberOfElements; i++) {
+                id[i] = i;
+                size[i] = 1;
+            }
         }
+
         public int find(int p) {
             int root = p;
             //search the root of the graph
-            while(root != id[root]) {
+            while (root != id[root]) {
                 root = id[root];
             }
             //path compression
